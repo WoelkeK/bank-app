@@ -33,9 +33,7 @@ public class AccountService {
 
     public void create(AccountModel accountModel) {
         LOGGER.info("create(" + accountModel + ")");
-//        AccountEntity accountEntity = new AccountEntity();
-//        accountEntity.setNumber("UK1234567890");
-//        accountEntity.setBalance(150);
+
         AccountEntity accountEntity = accountMapper.modelToEntity(accountModel);
         accountRepository.save(accountEntity);
 
@@ -44,28 +42,25 @@ public class AccountService {
     public AccountModel read(Long id) throws Exception {
         LOGGER.info("read(" + id + ")");
         Optional<AccountEntity> optionalAccountEntity = accountRepository.findById(id);
-//        AccountEntity accountEntity = optionalAccountEntity.orElse(new AccountEntity());
-//        AccountEntity accountEntity = optionalAccountEntity.orElseThrow();
+
         AccountEntity accountEntity = optionalAccountEntity.orElseThrow(
                 () -> new AccountNotFoundException("Brak konta o podanym id " + id));
-
-//        if (optionalAccountEntity.isPresent()) {
-//            AccountEntity getAccountEntity = optionalAccountEntity.get();
-//            if (getAccountEntity == null) {
-//                getAccountEntity = new AccountEntity();
-//            }
-//        }
 
         AccountModel accountModel = accountMapper.entityToModel(accountEntity);
         LOGGER.info("read(...)=" + accountModel);
         return accountModel;
     }
 
-    public void update() {
+    public void update(AccountModel accountModel) {
+        LOGGER.info("update()"+ accountModel);
+        AccountEntity accountEntity = accountMapper.modelToEntity(accountModel);
+        accountRepository.save(accountEntity);
 
     }
 
-    public void delete() {
+    public void delete(Long id) {
+        LOGGER.info("delete(" + id +")");
+        accountRepository.deleteById(id);
 
     }
 }
