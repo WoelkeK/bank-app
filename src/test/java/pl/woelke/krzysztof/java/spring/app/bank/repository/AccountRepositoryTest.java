@@ -32,8 +32,8 @@ class AccountRepositoryTest {
         // given
         AccountEntity accountEntity = new AccountEntity();
         accountEntity.setNumber(INIT_NUMBER);
-        accountRepository.save(accountEntity);
         // when
+        accountRepository.save(accountEntity);
         Optional<AccountEntity> readedEntity = accountRepository.findById(accountEntity.getId());
         // then
         Assertions.assertNotNull(readedEntity, "readedAccountEntity is null");

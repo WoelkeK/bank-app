@@ -75,7 +75,7 @@ public class AccountController {
     @PostMapping(value = "/update")
     public String update(
             @ModelAttribute(name = "account") AccountModel accountModel) {
-        LOGGER.info("update()");
+        LOGGER.info("update(" + accountModel+")");
         accountService.update(accountModel);
         return "redirect:/accounts";
     }
