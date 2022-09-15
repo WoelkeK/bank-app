@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import pl.woelke.krzysztof.java.spring.app.bank.repository.entity.AccountEntity;
+import pl.woelke.krzysztof.java.spring.app.bank.repository.entity.ClientEntity;
+
 import java.util.Optional;
 
 @SpringBootTest
@@ -15,6 +18,8 @@ class AccountRepositoryTest {
 
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private ClientRepository clientRepository;
 
     @Test
     void create() {
@@ -65,7 +70,28 @@ class AccountRepositoryTest {
         // then
         Assertions.assertTrue(deletedEntity.isEmpty());
     }
+
+    @Test
+//    @Rollback(false)
+    void accountClient(){
+        // given
+        AccountEntity accountEntity = new AccountEntity();
+        accountEntity.setNumber("1234567890");
+        accountEntity.setBalance(100);
+        accountEntity.setCurrency("PL");
+        ClientEntity clientEntity = new ClientEntity();
+        clientEntity.setFirstName("Cris");
+        clientEntity.setLastName("WOE");
+        accountEntity.setClient(clientEntity);
+
+        // when
+        clientRepository.save(clientEntity);
+        AccountEntity savedAccountEntity = accountRepository.save(accountEntity);
+        // then
+        Assertions.assertAll(
+                ()->Assertions.assertNotNull(accountEntity.getId(), "account Id is null."),
+                ()->Assertions.assertNotNull(clientEntity.getId(), " client Id is null.")
+        );
+    }
 }
 
-// TODO: 31.08.2022 uzupelnic metody pozostale testowe dla crud
-// Zrobi test jednostkowy dla serwisu
