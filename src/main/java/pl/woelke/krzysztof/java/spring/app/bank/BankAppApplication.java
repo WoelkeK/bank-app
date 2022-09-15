@@ -11,5 +11,5 @@ public class BankAppApplication {
 	}
 
 }
-// TODO: 15.08.2022 stworzyć nową klasę accountMapper, która posiada metody zamieniające Account model na account entity oraz
-//Account Entity na Account model
+// TODO: 14.09.2022 Funkcjonalnośc pozwalająca klientowi na zarządzanie kontami.
+//String security, WebSecurityConfigureAdapter, User details service
