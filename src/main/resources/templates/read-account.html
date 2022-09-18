@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account details</title>
+</head>
+<body>
+<h1>Account details</h1>
+<div>
+    <div>
+        <span for="number">Numer konta</span>
+        <span th:text="${account.number}"></span>
+
+    </div>
+    <div>
+        <span for="balance">Saldo</span>
+        <span th:text="${account.balance}"></span>
+    </div>
+    <div>
+        <span for="currency">Waluta</span>
+        <span th:text="${account.currency}"></span>
+    </div>
+</div>
+
+</body>
+</html>

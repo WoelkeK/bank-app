@@ -3,6 +3,7 @@ package pl.woelke.krzysztof.java.spring.app.bank.repository.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,6 +16,9 @@ public class AccountEntity {
     private String number;
     private double balance;
     private String currency;
+
+    @ManyToOne
+    private ClientEntity client;
 
     public AccountEntity() {
     }
@@ -49,6 +53,14 @@ public class AccountEntity {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public ClientEntity getClient() {
+        return client;
+    }
+
+    public void setClient(ClientEntity client) {
+        this.client = client;
     }
 
     @Override
