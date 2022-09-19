@@ -8,6 +8,7 @@ public class AccountModel {
     private String number;
     private double balance;
     private String currency;
+    private ClientModel client;
 
     public Long getId() {
         return id;
@@ -41,6 +42,14 @@ public class AccountModel {
         this.currency = currency;
     }
 
+    public ClientModel getClient() {
+        return client;
+    }
+
+    public void setClient(ClientModel client) {
+        this.client = client;
+    }
+
     @Override
     public String toString() {
         return "AccountModel{" +
@@ -48,6 +57,7 @@ public class AccountModel {
                 ", number='" + number + '\'' +
                 ", balance=" + balance +
                 ", currency='" + currency + '\'' +
+                ", client=" + client +
                 '}';
     }
 }

@@ -10,7 +10,7 @@
     <form action="#" th:action="@{/accounts/create}" th:object="${account}" method="post">
         <div>
             <label for="number">Numer konta</label>
-<!--            <input id="number" type="text" name="number">-->
+            <!--            <input id="number" type="text" name="number">-->
             <input id="number" th:field="${account.number}">
         </div>
         <div>
@@ -20,6 +20,15 @@
         <div>
             <label for="currency">Waluta</label>
             <input id="currency" type="text" name="currency">
+        </div>
+        <div>
+            <select th:field="${account.client.id}">
+                <option th:each="client,status: ${clients}"
+                        th:text="${client.firstName}"
+                        th:value="${client.id}">
+
+                </option>
+            </select>
         </div>
         <div>
             <button type="submit">add</button>

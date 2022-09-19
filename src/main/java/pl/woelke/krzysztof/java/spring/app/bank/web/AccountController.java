@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import pl.woelke.krzysztof.java.spring.app.bank.service.AccountService;
+import pl.woelke.krzysztof.java.spring.app.bank.service.ClientService;
 import pl.woelke.krzysztof.java.spring.app.bank.web.model.AccountModel;
+import pl.woelke.krzysztof.java.spring.app.bank.web.model.ClientModel;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -21,9 +22,11 @@ public class AccountController {
     private static final Logger LOGGER = Logger.getLogger(AccountController.class.getName());
 
     private AccountService accountService;
+    private ClientService clientService;
 
-    public AccountController(AccountService accountService) {
+    public AccountController(AccountService accountService, ClientService clientService) {
         this.accountService = accountService;
+        this.clientService = clientService;
     }
 
     @GetMapping
@@ -38,6 +41,8 @@ public class AccountController {
     @GetMapping(value = "/create")
     public String createView(ModelMap modelMap) {
         LOGGER.info("createView()");
+        List<ClientModel> clients = clientService.list();
+        modelMap.addAttribute("clients", clients);
         modelMap.addAttribute("account", new AccountModel());
 
         return "create-account.html";
