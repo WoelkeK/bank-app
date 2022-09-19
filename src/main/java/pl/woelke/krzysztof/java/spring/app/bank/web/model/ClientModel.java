@@ -29,10 +29,12 @@ public class ClientModel {
         this.lastName = lastName;
     }
 
+
     @Override
     public String toString() {
         return "ClientModel{" +
-                "firstName='" + firstName + '\'' +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 '}';
     }
