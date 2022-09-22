@@ -1,5 +1,6 @@
 package pl.woelke.krzysztof.java.spring.app.bank.web;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +21,11 @@ public class ClientController {
 
     //    @Autowired
     private ClientService clientService;
+    private PasswordEncoder passwordEncoder;
 
-    public ClientController(ClientService clientService) {
+    public ClientController(ClientService clientService, PasswordEncoder passwordEncoder) {
         this.clientService = clientService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
@@ -46,6 +49,7 @@ public class ClientController {
             @ModelAttribute(name = "client") ClientModel clientModel) {
         LOGGER.info("create(" + clientModel + ")");
 //        LOGGER.info("create(" + lastName + ")");
+        clientModel.setPassword(passwordEncoder.encode(clientModel.getPassword()));
         clientService.create(clientModel);
         return "redirect:/clients";
     }
