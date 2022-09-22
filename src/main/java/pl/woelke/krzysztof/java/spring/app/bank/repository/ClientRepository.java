@@ -6,4 +6,5 @@ import pl.woelke.krzysztof.java.spring.app.bank.repository.entity.ClientEntity;
 
 @Repository
 public interface ClientRepository extends JpaRepository<ClientEntity, Long> {
+    ClientEntity findByLogin(String username);
 }

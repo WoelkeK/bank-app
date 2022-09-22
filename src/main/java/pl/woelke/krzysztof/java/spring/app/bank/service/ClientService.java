@@ -32,11 +32,6 @@ public class ClientService {
 
     public void create(ClientModel clientModel) {
         LOGGER.info("create(" + clientModel + ")");
-//        ClientEntity clientEntity = new ClientEntity();
-//        clientEntity.setFirstName("Jozef");
-//        clientEntity.setLastName("Kowlaski");
-//        clientRepository.save(clientEntity);
-//        ClientEntity clientEntity = clientMapper.
         ClientEntity clientEntity = clientMapper.modelToEntity(clientModel);
         clientRepository.save(clientEntity);
     }

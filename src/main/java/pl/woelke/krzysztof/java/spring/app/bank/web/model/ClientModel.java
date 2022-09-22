@@ -4,6 +4,8 @@ public class ClientModel {
     private Long id;
     private String firstName;
     private String lastName;
+    private String login;
+    private String password;
 
     public Long getId() {
         return id;
@@ -29,6 +31,21 @@ public class ClientModel {
         this.lastName = lastName;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     @Override
     public String toString() {
@@ -36,6 +53,7 @@ public class ClientModel {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", login='" + login + '\'' +
                 '}';
     }
 }

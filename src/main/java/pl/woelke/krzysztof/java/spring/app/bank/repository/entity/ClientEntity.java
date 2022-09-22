@@ -1,5 +1,6 @@
 package pl.woelke.krzysztof.java.spring.app.bank.repository.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,6 +15,9 @@ public class ClientEntity {
 
     private String firstName;
     private String lastName;
+    @Column(unique = true)
+    private String login;
+    private String password;
 
     public ClientEntity() {
     }
@@ -42,12 +46,29 @@ public class ClientEntity {
         this.lastName = lastName;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "ClientEntity{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", login='" + login + '\'' +
                 '}';
     }
 }
