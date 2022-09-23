@@ -23,6 +23,7 @@ public class WebSecurityConfig {
                         .antMatchers("/h2-console/**").permitAll()
                         .antMatchers("/accounts/read/").hasRole("USER")
                         .antMatchers("/accounts/create/").hasRole("ADMIN")
+                        .antMatchers("/clients/").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form.permitAll())
