@@ -27,13 +27,16 @@ public class ClientService {
         LOGGER.info("list()");
         List<ClientEntity> clientEntities = clientRepository.findAll();
         List<ClientModel> clientModels = clientMapper.listModels(clientEntities);
+        LOGGER.info("clientModels: " + clientModels);
         return clientModels;
     }
 
-    public void create(ClientModel clientModel) {
+    public ClientModel create(ClientModel clientModel) {
         LOGGER.info("create(" + clientModel + ")");
         ClientEntity clientEntity = clientMapper.modelToEntity(clientModel);
-        clientRepository.save(clientEntity);
+        ClientEntity savedClientEntity = clientRepository.save(clientEntity);
+        ClientModel  savedClientModel = clientMapper.entityToModel(savedClientEntity);
+        return savedClientModel;
     }
 
     public ClientModel read(Long id) throws Exception {
@@ -46,10 +49,13 @@ public class ClientService {
         return clientModel;
     }
 
-    public void update(ClientModel clientModel) {
+    public ClientModel update(ClientModel clientModel) {
         LOGGER.info("update()" + clientModel);
         ClientEntity clientEntity = clientMapper.modelToEntity(clientModel);
-        clientRepository.save(clientEntity);
+        ClientEntity updatedClientEntity = clientRepository.save(clientEntity);
+        ClientModel updatedClientModel = clientMapper.entityToModel(updatedClientEntity);
+        LOGGER.info("update()"+updatedClientModel);
+        return updatedClientModel;
 
     }
 

@@ -2,9 +2,7 @@ package pl.woelke.krzysztof.java.spring.app.bank.service.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import pl.woelke.krzysztof.java.spring.app.bank.repository.entity.AccountEntity;
 import pl.woelke.krzysztof.java.spring.app.bank.repository.entity.ClientEntity;
-import pl.woelke.krzysztof.java.spring.app.bank.web.model.AccountModel;
 import pl.woelke.krzysztof.java.spring.app.bank.web.model.ClientModel;
 
 import java.util.List;
@@ -30,6 +28,7 @@ public class ClientMapper {
         LOGGER.info("entityToModel" + clientEntity);
         ModelMapper modelMapper = new ModelMapper();
         ClientModel clientModel = modelMapper.map(clientEntity, ClientModel.class);
+        clientModel.setPassword(null);
         return clientModel;
     }
 
