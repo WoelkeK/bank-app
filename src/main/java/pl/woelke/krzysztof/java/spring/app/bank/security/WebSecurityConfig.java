@@ -21,6 +21,7 @@ public class WebSecurityConfig {
                 .cors().disable()
                 .authorizeHttpRequests((requests) -> requests
                         .antMatchers("/h2-console/**").permitAll()
+                        .antMatchers("/api/**").permitAll()
                         .antMatchers("/accounts/read/").hasRole("USER")
                         .antMatchers("/accounts/create/").hasRole("ADMIN")
                         .antMatchers("/clients/").hasRole("USER")
