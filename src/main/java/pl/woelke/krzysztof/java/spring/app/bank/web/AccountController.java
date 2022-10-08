@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.woelke.krzysztof.java.spring.app.bank.api.external.nbp.NbpApiClient;
+import pl.woelke.krzysztof.java.spring.app.bank.api.external.nbp.model.Currency;
 import pl.woelke.krzysztof.java.spring.app.bank.service.AccountService;
 import pl.woelke.krzysztof.java.spring.app.bank.service.ClientService;
 import pl.woelke.krzysztof.java.spring.app.bank.web.model.AccountModel;
@@ -23,10 +25,12 @@ public class AccountController {
 
     private AccountService accountService;
     private ClientService clientService;
+    private NbpApiClient nbpApiClient;
 
-    public AccountController(AccountService accountService, ClientService clientService) {
+    public AccountController(AccountService accountService, ClientService clientService, NbpApiClient nbpApiClient) {
         this.accountService = accountService;
         this.clientService = clientService;
+        this.nbpApiClient = nbpApiClient;
     }
 
     @GetMapping
@@ -93,4 +97,20 @@ public class AccountController {
         accountService.delete(id);
         return "redirect:/accounts";
     }
+
+    @PostMapping(value = "/convert")
+    public String convert(
+            String currency,
+            ModelMap modelMap) throws Exception {
+        LOGGER.info("convert(" + currency + ")");
+        Currency rate = nbpApiClient.getRates(currency);
+        LOGGER.info("rate:" + rate);
+//        AccountModel accountModel = accountService.read(currency);
+        modelMap.addAttribute("account", new AccountModel());
+        return "read-account.html";
+    }
 }
+// TODO: 07.10.2022 metoda convert musi przyjmować id tak jak metoda read.
+//za pomocą id pobrac szczególy konta
+//ze szczegółów konta pobrac saldo
+//pobrane saldo podzielic przez rate pochodzący z currency(api)

@@ -20,6 +20,19 @@
         <span for="currency">Waluta</span>
         <span th:text="${account.currency}"></span>
     </div>
+    <div>
+        <form action="/accounts/convert" method="post">
+            <label for="currencies">Choose a currency:</label>
+
+            <select name="currency" id="currencies">
+                <option value="EUR">Euro</option>
+                <option value="USD">Dollar</option>
+                <option value="CHF">Frank</option>
+                <option value="GBP">Pounds</option>
+            </select>
+            <button type="submit">Convert</button>
+        </form>
+    </div>
 </div>
 
 </body>
