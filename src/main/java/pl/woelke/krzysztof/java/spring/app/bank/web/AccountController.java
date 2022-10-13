@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.woelke.krzysztof.java.spring.app.bank.api.external.nbp.NbpApiClient;
-import pl.woelke.krzysztof.java.spring.app.bank.api.external.nbp.model.Currency;
 import pl.woelke.krzysztof.java.spring.app.bank.service.AccountService;
 import pl.woelke.krzysztof.java.spring.app.bank.service.ClientService;
 import pl.woelke.krzysztof.java.spring.app.bank.web.model.AccountModel;
@@ -19,18 +17,18 @@ import java.util.logging.Logger;
 
 @Controller
 @RequestMapping(value = "/accounts")
+//@SessionAttributes(names = {"account"})
 public class AccountController {
 
     private static final Logger LOGGER = Logger.getLogger(AccountController.class.getName());
 
     private AccountService accountService;
     private ClientService clientService;
-    private NbpApiClient nbpApiClient;
 
-    public AccountController(AccountService accountService, ClientService clientService, NbpApiClient nbpApiClient) {
+
+    public AccountController(AccountService accountService, ClientService clientService) {
         this.accountService = accountService;
         this.clientService = clientService;
-        this.nbpApiClient = nbpApiClient;
     }
 
     @GetMapping
@@ -84,7 +82,7 @@ public class AccountController {
     @PostMapping(value = "/update")
     public String update(
             @ModelAttribute(name = "account") AccountModel accountModel) {
-        LOGGER.info("update(" + accountModel+")");
+        LOGGER.info("update(" + accountModel + ")");
         accountService.update(accountModel);
         return "redirect:/accounts";
     }
@@ -98,15 +96,22 @@ public class AccountController {
         return "redirect:/accounts";
     }
 
-    @PostMapping(value = "/convert")
+    @PostMapping(value = "/convert/{id}")
     public String convert(
+            @PathVariable(name = "id") Long id,
             String currency,
             ModelMap modelMap) throws Exception {
-        LOGGER.info("convert(" + currency + ")");
-        Currency rate = nbpApiClient.getRates(currency);
-        LOGGER.info("rate:" + rate);
-//        AccountModel accountModel = accountService.read(currency);
-        modelMap.addAttribute("account", new AccountModel());
+        LOGGER.info("convert(" + currency + ", " + id + ")");
+
+        AccountModel accountModel = accountService.read(id);
+        LOGGER.info("accountModel " + accountModel);
+        AccountModel convertedAccountModel = accountService.convertCurrency(accountModel, currency);
+        LOGGER.info("convertedAccountModel " + convertedAccountModel);
+//        modelMap.addAttribute("account", convertedAccountModel);
+
+        modelMap.addAttribute("account", convertedAccountModel);
+//        return "redirect:/accounts/convert/" + id;
+//        return "redirect:/accounts/read/" + id;
         return "read-account.html";
     }
 }

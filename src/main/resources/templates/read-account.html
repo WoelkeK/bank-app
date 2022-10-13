@@ -21,7 +21,7 @@
         <span th:text="${account.currency}"></span>
     </div>
     <div>
-        <form action="/accounts/convert" method="post">
+        <form action="#" th:action="@{/accounts/convert/{id}(id=${account.id})}" method="post">
             <label for="currencies">Choose a currency:</label>
 
             <select name="currency" id="currencies">
@@ -32,6 +32,10 @@
             </select>
             <button type="submit">Convert</button>
         </form>
+    </div>
+    <div>
+        <span >Przeliczona waluta</span>
+        <span th:text="${account.currencyBalance}"></span>
     </div>
 </div>
 

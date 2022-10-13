@@ -11,5 +11,3 @@ public class BankAppApplication {
 	}
 
 }
-// TODO: 14.09.2022 Funkcjonalnośc pozwalająca klientowi na zarządzanie kontami.
-//String security, WebSecurityConfigureAdapter, User details service

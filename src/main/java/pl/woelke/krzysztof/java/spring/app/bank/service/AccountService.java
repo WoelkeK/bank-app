@@ -2,11 +2,13 @@ package pl.woelke.krzysztof.java.spring.app.bank.service;
 
 import org.springframework.stereotype.Service;
 import pl.woelke.krzysztof.java.spring.app.bank.api.exception.AccountNotFoundException;
-import pl.woelke.krzysztof.java.spring.app.bank.repository.entity.AccountEntity;
 import pl.woelke.krzysztof.java.spring.app.bank.repository.AccountRepository;
+import pl.woelke.krzysztof.java.spring.app.bank.repository.entity.AccountEntity;
+import pl.woelke.krzysztof.java.spring.app.bank.service.converter.CurrencyConverter;
 import pl.woelke.krzysztof.java.spring.app.bank.service.mapper.AccountMapper;
 import pl.woelke.krzysztof.java.spring.app.bank.web.model.AccountModel;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -17,10 +19,13 @@ public class AccountService {
 
     private AccountRepository accountRepository;
     private AccountMapper accountMapper;
+    private CurrencyConverter currencyConverter;
 
-    public AccountService(AccountRepository accountRepository, AccountMapper accountMapper) {
+
+    public AccountService(AccountRepository accountRepository, AccountMapper accountMapper, CurrencyConverter currencyConverter) {
         this.accountRepository = accountRepository;
         this.accountMapper = accountMapper;
+        this.currencyConverter = currencyConverter;
     }
 
     public List<AccountModel> list() {
@@ -52,15 +57,21 @@ public class AccountService {
     }
 
     public void update(AccountModel accountModel) {
-        LOGGER.info("update()"+ accountModel);
+        LOGGER.info("update()" + accountModel);
         AccountEntity accountEntity = accountMapper.modelToEntity(accountModel);
         accountRepository.save(accountEntity);
 
     }
 
     public void delete(Long id) {
-        LOGGER.info("delete(" + id +")");
+        LOGGER.info("delete(" + id + ")");
         accountRepository.deleteById(id);
+    }
+
+    public AccountModel convertCurrency(AccountModel accountModel, String currency) throws IOException {
+        LOGGER.info("convertCurrency(" + accountModel + " " + currency + ")");
+        AccountModel convertedCurrencyModel = currencyConverter.convertCurrency(accountModel, currency);
+        return convertedCurrencyModel;
 
     }
 }

@@ -23,6 +23,7 @@ public class NbpApiClient {
 
         try (Response response = client.newCall(request).execute()) {
             String responseString = response.body().string();
+            LOGGER.info("responseString " + responseString);
             Currency currency = new Gson().fromJson(responseString, Currency.class);
             LOGGER.info("getRates(...)=" + currency);
             return currency;
