@@ -44,7 +44,7 @@ public class AccountService {
 
     }
 
-    public AccountModel read(Long id) throws Exception {
+    public AccountModel read(Long id) throws AccountNotFoundException {
         LOGGER.info("read(" + id + ")");
         Optional<AccountEntity> optionalAccountEntity = accountRepository.findById(id);
 

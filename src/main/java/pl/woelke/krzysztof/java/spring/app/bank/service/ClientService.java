@@ -64,3 +64,5 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
 }
+
+// TODO: 13.10.2022 add tests for the whole accountService methods.
