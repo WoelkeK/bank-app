@@ -1,4 +1,4 @@
-package pl.woelke.krzysztof.java.spring.app.bank.config;
+package pl.woelke.krzysztof.java.spring.app.bank.api.exception.config;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

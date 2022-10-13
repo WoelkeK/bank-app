@@ -17,12 +17,14 @@ import java.util.logging.Logger;
 
 @Controller
 @RequestMapping(value = "/accounts")
+//@SessionAttributes(names = {"account"})
 public class AccountController {
 
     private static final Logger LOGGER = Logger.getLogger(AccountController.class.getName());
 
     private AccountService accountService;
     private ClientService clientService;
+
 
     public AccountController(AccountService accountService, ClientService clientService) {
         this.accountService = accountService;
@@ -80,7 +82,7 @@ public class AccountController {
     @PostMapping(value = "/update")
     public String update(
             @ModelAttribute(name = "account") AccountModel accountModel) {
-        LOGGER.info("update(" + accountModel+")");
+        LOGGER.info("update(" + accountModel + ")");
         accountService.update(accountModel);
         return "redirect:/accounts";
     }
@@ -93,4 +95,27 @@ public class AccountController {
         accountService.delete(id);
         return "redirect:/accounts";
     }
+
+    @PostMapping(value = "/convert/{id}")
+    public String convert(
+            @PathVariable(name = "id") Long id,
+            String currency,
+            ModelMap modelMap) throws Exception {
+        LOGGER.info("convert(" + currency + ", " + id + ")");
+
+        AccountModel accountModel = accountService.read(id);
+        LOGGER.info("accountModel " + accountModel);
+        AccountModel convertedAccountModel = accountService.convertCurrency(accountModel, currency);
+        LOGGER.info("convertedAccountModel " + convertedAccountModel);
+//        modelMap.addAttribute("account", convertedAccountModel);
+
+        modelMap.addAttribute("account", convertedAccountModel);
+//        return "redirect:/accounts/convert/" + id;
+//        return "redirect:/accounts/read/" + id;
+        return "read-account.html";
+    }
 }
+// TODO: 07.10.2022 metoda convert musi przyjmować id tak jak metoda read.
+//za pomocą id pobrac szczególy konta
+//ze szczegółów konta pobrac saldo
+//pobrane saldo podzielic przez rate pochodzący z currency(api)

@@ -22,9 +22,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .antMatchers("/h2-console/**").permitAll()
                         .antMatchers("/api/**").permitAll()
-                        .antMatchers("/accounts/read/").hasRole("USER")
-                        .antMatchers("/accounts/create/").hasRole("ADMIN")
-                        .antMatchers("/clients/").hasRole("USER")
+//                        .antMatchers("/accounts/read/").hasRole("USER")
+//                        .antMatchers("/accounts/create/").hasRole("ADMIN")
+//                        .antMatchers("/clients/").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form.permitAll())

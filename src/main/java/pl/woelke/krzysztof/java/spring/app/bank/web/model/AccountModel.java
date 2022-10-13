@@ -1,12 +1,13 @@
 package pl.woelke.krzysztof.java.spring.app.bank.web.model;
 
-import lombok.Data;
-
+import org.springframework.format.annotation.NumberFormat;
 
 public class AccountModel {
     private Long id;
     private String number;
     private double balance;
+    @NumberFormat(style = NumberFormat.Style.NUMBER)
+    private double currencyBalance;
     private String currency;
     private ClientModel client;
 
@@ -34,6 +35,14 @@ public class AccountModel {
         this.balance = balance;
     }
 
+    public double getCurrencyBalance() {
+        return currencyBalance;
+    }
+
+    public void setCurrencyBalance(double currencyBalance) {
+        this.currencyBalance = currencyBalance;
+    }
+
     public String getCurrency() {
         return currency;
     }
@@ -50,12 +59,14 @@ public class AccountModel {
         this.client = client;
     }
 
+
     @Override
     public String toString() {
         return "AccountModel{" +
                 "id=" + id +
                 ", number='" + number + '\'' +
                 ", balance=" + balance +
+                ", currencyBalance=" + currencyBalance +
                 ", currency='" + currency + '\'' +
                 ", client=" + client +
                 '}';
