@@ -39,3 +39,4 @@ public class ClientMapper {
         return clientEntity;
     }
 }
+// TODO: 13.10.2022 add missing test for the whole clientMapper class.

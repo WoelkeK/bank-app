@@ -8,7 +8,6 @@ import pl.woelke.krzysztof.java.spring.app.bank.service.converter.CurrencyConver
 import pl.woelke.krzysztof.java.spring.app.bank.service.mapper.AccountMapper;
 import pl.woelke.krzysztof.java.spring.app.bank.web.model.AccountModel;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -21,7 +20,6 @@ public class AccountService {
     private AccountMapper accountMapper;
     private CurrencyConverter currencyConverter;
 
-
     public AccountService(AccountRepository accountRepository, AccountMapper accountMapper, CurrencyConverter currencyConverter) {
         this.accountRepository = accountRepository;
         this.accountMapper = accountMapper;
@@ -33,18 +31,18 @@ public class AccountService {
         List<AccountEntity> accountEntities = accountRepository.findAll();
         List<AccountModel> accountModels = accountMapper.listModels(accountEntities);
         return accountModels;
-
     }
 
-    public void create(AccountModel accountModel) {
+    public AccountModel create(AccountModel accountModel) {
         LOGGER.info("create(" + accountModel + ")");
 
         AccountEntity accountEntity = accountMapper.modelToEntity(accountModel);
-        accountRepository.save(accountEntity);
-
+        AccountEntity createdAccountEntity = accountRepository.save(accountEntity);
+        AccountModel createdAccountModel = accountMapper.entityToModel(createdAccountEntity);
+        return createdAccountModel;
     }
 
-    public AccountModel read(Long id) throws Exception {
+    public AccountModel read(Long id) throws AccountNotFoundException {
         LOGGER.info("read(" + id + ")");
         Optional<AccountEntity> optionalAccountEntity = accountRepository.findById(id);
 
@@ -56,11 +54,12 @@ public class AccountService {
         return accountModel;
     }
 
-    public void update(AccountModel accountModel) {
+    public AccountModel update(AccountModel accountModel) {
         LOGGER.info("update()" + accountModel);
         AccountEntity accountEntity = accountMapper.modelToEntity(accountModel);
-        accountRepository.save(accountEntity);
-
+        AccountEntity updatedAccountEntity = accountRepository.save(accountEntity);
+        AccountModel updatedAccountModel = accountMapper.entityToModel(updatedAccountEntity);
+        return updatedAccountModel;
     }
 
     public void delete(Long id) {
@@ -68,10 +67,9 @@ public class AccountService {
         accountRepository.deleteById(id);
     }
 
-    public AccountModel convertCurrency(AccountModel accountModel, String currency) throws IOException {
+    public AccountModel convertCurrency(AccountModel accountModel, String currency) throws Exception {
         LOGGER.info("convertCurrency(" + accountModel + " " + currency + ")");
         AccountModel convertedCurrencyModel = currencyConverter.convertCurrency(accountModel, currency);
         return convertedCurrencyModel;
-
     }
 }

@@ -1,7 +1,7 @@
 package pl.woelke.krzysztof.java.spring.app.bank.service;
 
 import org.springframework.stereotype.Service;
-import pl.woelke.krzysztof.java.spring.app.bank.api.exception.AccountNotFoundException;
+import pl.woelke.krzysztof.java.spring.app.bank.api.exception.ClientNotFoundException;
 import pl.woelke.krzysztof.java.spring.app.bank.repository.ClientRepository;
 import pl.woelke.krzysztof.java.spring.app.bank.repository.entity.ClientEntity;
 import pl.woelke.krzysztof.java.spring.app.bank.service.mapper.ClientMapper;
@@ -42,7 +42,7 @@ public class ClientService {
     public ClientModel read(Long id) throws Exception {
         Optional<ClientEntity> optionalClientEntity = clientRepository.findById(id);
         ClientEntity clientEntity = optionalClientEntity.orElseThrow(
-                () -> new AccountNotFoundException("Brak klienta o podanym id " + id)
+                () -> new ClientNotFoundException("Brak klienta o podanym id " + id)
         );
         ClientModel clientModel = clientMapper.entityToModel(clientEntity);
         LOGGER.info("read(...)" + clientEntity);
@@ -64,3 +64,4 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
 }
+// TODO: 13.10.2022 add tests for the whole accountService methods.

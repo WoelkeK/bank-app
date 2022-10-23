@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import pl.woelke.krzysztof.java.spring.app.bank.repository.entity.AccountEntity;
 import pl.woelke.krzysztof.java.spring.app.bank.repository.entity.ClientEntity;
 
@@ -39,9 +38,9 @@ class AccountRepositoryTest {
         accountEntity.setNumber(INIT_NUMBER);
         // when
         accountRepository.save(accountEntity);
-        Optional<AccountEntity> readedEntity = accountRepository.findById(accountEntity.getId());
+        Optional<AccountEntity> readedAccountEntity = accountRepository.findById(accountEntity.getId());
         // then
-        Assertions.assertNotNull(readedEntity, "readedAccountEntity is null");
+        Assertions.assertNotNull(readedAccountEntity, "readedAccountEntity is null");
     }
 
     @Test
