@@ -6,7 +6,6 @@ import pl.woelke.krzysztof.java.spring.app.bank.repository.entity.AccountEntity;
 import pl.woelke.krzysztof.java.spring.app.bank.web.model.AccountModel;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -19,9 +18,7 @@ public class AccountMapper {
         LOGGER.info("listModels(" + accountEntities + ")");
         List<AccountModel> accountModels = accountEntities.stream()
                 .map(this::entityToModel)
-//                .map(accountEntity -> entityToModel(accountEntity))
                 .collect(Collectors.toList());
-
         return accountModels;
     }
 
@@ -30,17 +27,11 @@ public class AccountMapper {
         List<AccountEntity> accountEntities = accountModels.stream()
                 .map(this::modelToEntity)
                 .collect(Collectors.toList());
-
         return accountEntities;
     }
 
     public AccountEntity modelToEntity(AccountModel accountModel) {
         LOGGER.info("modelToEntity(" + accountModel + ")");
-//        AccountEntity accountEntity = new AccountEntity();
-//        accountEntity.setId(accountModel.getId());
-//        accountEntity.setNumber(accountModel.getNumber()+"xxxxx");
-//        accountEntity.setBalance(accountModel.getBalance());
-//        accountEntity.setCurrency(accountModel.getCurrency());
         ModelMapper modelMapper = new ModelMapper();
         AccountEntity accountEntity = modelMapper.map(accountModel, AccountEntity.class);
         return accountEntity;
@@ -48,12 +39,8 @@ public class AccountMapper {
 
     public AccountModel entityToModel(AccountEntity accountEntity) {
         LOGGER.info("entityToModel(" + accountEntity + ")");
-//        AccountModel accountModel = new AccountModel();
-//        accountModel.setNumber(accountEntity.getNumber());
-
         ModelMapper modelMapper = new ModelMapper();
         AccountModel accountModel = modelMapper.map(accountEntity, AccountModel.class);
         return accountModel;
     }
 }
-// TODO: 16.08.2022 dokończyć implementacje metody entityToModel
