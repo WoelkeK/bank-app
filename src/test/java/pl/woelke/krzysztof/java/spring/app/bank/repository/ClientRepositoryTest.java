@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.woelke.krzysztof.java.spring.app.bank.repository.entity.ClientEntity;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @SpringBootTest
+@Transactional
 class ClientRepositoryTest {
+    public static final String LAST_NAME_UPDATED = "updatedTest";
     @Autowired
     private ClientRepository clientRepository;
 
@@ -60,13 +63,15 @@ class ClientRepositoryTest {
         // given
         ClientEntity clientEntity = new ClientEntity();
         clientEntity.setLastName("test");
-        ClientEntity createdClientEntity = clientRepository.save(clientEntity);
-        clientEntity.setLastName("updatedTest");
+
         // when
+        ClientEntity createdClientEntity = clientRepository.save(clientEntity);
+        createdClientEntity.setLastName(LAST_NAME_UPDATED);
         Optional<ClientEntity> updatedClientEntity = clientRepository.findById(createdClientEntity.getId());
+
         // then
         Assertions.assertAll(
-                () -> Assertions.assertNotEquals(updatedClientEntity.get().getLastName(), createdClientEntity.getLastName()),
+                () -> Assertions.assertEquals(LAST_NAME_UPDATED, updatedClientEntity.get().getLastName()),
                 () -> Assertions.assertNotNull(updatedClientEntity.get().getLastName())
         );
 

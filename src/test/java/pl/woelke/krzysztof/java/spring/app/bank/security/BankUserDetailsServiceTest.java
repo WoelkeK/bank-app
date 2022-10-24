@@ -13,7 +13,7 @@ class BankUserDetailsServiceTest {
     private BankUserDetailsService bankUserDetailsService;
 
     @Test
-    void loadUserByUsername() throws UsernameNotFoundException{
+    void loadUserByUsername() {
         // given
         String username =null;
         // when

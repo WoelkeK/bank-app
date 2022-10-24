@@ -71,7 +71,7 @@ class ClientServiceTest {
         // then
         Assertions.assertAll(
                 () -> Assertions.assertNotNull(updatedClientModel, "clientModel is null"),
-                () -> Assertions.assertTrue(updatedClientModel.getId() != createdClientModel.getId())
+                () -> Assertions.assertEquals(updatedClientModel.getId(), createdClientModel.getId())
         );
     }
 
@@ -79,13 +79,16 @@ class ClientServiceTest {
     void delete() throws ClientNotFoundException {
 
         // given
-        Long id = 1L;
         ClientModel clientModel = new ClientModel();
-        clientModel.setId(id);
-        ClientModel createdClientModel = clientService.create(clientModel);
+
         // when
-        clientService.delete(id);
+        ClientModel createdClientModel = clientService.create(clientModel);
+        Long createdClientModelId = createdClientModel.getId();
+        clientService.delete(createdClientModelId);
+
         // then
-        Assertions.assertThrows(ClientNotFoundException.class, () -> clientService.read(id), "clientModel not deleted");
+        Assertions.assertThrows(ClientNotFoundException.class,
+                () -> clientService.read(createdClientModelId), "clientModel not deleted");
     }
+
 }
