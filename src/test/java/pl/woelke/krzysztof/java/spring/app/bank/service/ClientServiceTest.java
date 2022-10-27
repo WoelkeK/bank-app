@@ -62,16 +62,16 @@ class ClientServiceTest {
 
         // given
         ClientModel clientModel = new ClientModel();
-        clientModel.setId(1L);
+        clientModel.setFirstName("test");
         ClientModel createdClientModel = clientService.create(clientModel);
         // when
-        createdClientModel.setId(-999L);
-        ClientModel updatedClientModel = clientService.update(clientModel);
+        createdClientModel.setFirstName("updatedTest");
+        ClientModel updatedClientModel = clientService.update(createdClientModel);
 
         // then
         Assertions.assertAll(
                 () -> Assertions.assertNotNull(updatedClientModel, "clientModel is null"),
-                () -> Assertions.assertEquals(updatedClientModel.getId(), createdClientModel.getId())
+                () -> Assertions.assertEquals(updatedClientModel.getId(), clientModel.getId())
         );
     }
 
@@ -90,5 +90,4 @@ class ClientServiceTest {
         Assertions.assertThrows(ClientNotFoundException.class,
                 () -> clientService.read(createdClientModelId), "clientModel not deleted");
     }
-
 }
