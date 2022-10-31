@@ -26,7 +26,7 @@ public class ClientRestController {
     }
 
     @GetMapping
-    public List<ClientModel> clientModelList(){
+    public List<ClientModel> list(){
         LOGGER.info("clientModelList()");
         List<ClientModel> clientModels = clientService.list();
         return clientModels;
@@ -42,8 +42,8 @@ public class ClientRestController {
     @GetMapping(value = "/{id}")
     public ClientModel read(@PathVariable(name = "id") Long id) throws Exception {
         LOGGER.info("read(" + id + ")");
-        ClientModel clientModel = clientService.read(id);
-        return clientModel;
+        ClientModel readClientModel = clientService.read(id);
+        return readClientModel;
     }
 
     @PutMapping(value = "")
