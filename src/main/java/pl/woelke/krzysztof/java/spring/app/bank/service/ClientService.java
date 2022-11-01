@@ -40,12 +40,13 @@ public class ClientService {
     }
 
     public ClientModel read(Long id) throws Exception {
+        LOGGER.info("read(" + id + ")");
         Optional<ClientEntity> optionalClientEntity = clientRepository.findById(id);
         ClientEntity clientEntity = optionalClientEntity.orElseThrow(
                 () -> new ClientNotFoundException("Brak klienta o podanym id " + id)
         );
         ClientModel clientModel = clientMapper.entityToModel(clientEntity);
-        LOGGER.info("read(...)" + clientEntity);
+        LOGGER.info("read(...)" + clientModel);
         return clientModel;
     }
 
