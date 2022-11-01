@@ -42,13 +42,15 @@ public class ClientRestController {
     @GetMapping(value = "/{id}")
     public ClientModel read(@PathVariable(name = "id") Long id) throws Exception {
         LOGGER.info("read(" + id + ")");
-        ClientModel readClientModel = clientService.read(id);
-        return readClientModel;
+        ClientModel clientModel = clientService.read(id);
+        LOGGER.info("read(...)" + clientModel);
+        return clientModel;
     }
 
-    @PutMapping(value = "")
-    public ClientModel update(@RequestBody ClientModel clientModel) {
-        LOGGER.info("update()" + clientModel);
+    @PutMapping("/{id}")
+    public ClientModel update(@PathVariable(name = "id") Long id, @RequestBody ClientModel clientModel) {
+        LOGGER.info("update(" + clientModel + " id " + id +")" );
+        clientModel.setId(id);
         ClientModel updatedClientModel = clientService.update(clientModel);
         return updatedClientModel;
     }

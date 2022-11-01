@@ -4,11 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import pl.woelke.krzysztof.java.spring.app.bank.service.AccountService;
 import pl.woelke.krzysztof.java.spring.app.bank.web.model.AccountModel;
 
 import static org.hamcrest.Matchers.containsString;
@@ -25,9 +23,6 @@ public class TestingWebApplicationTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
-    private AccountService accountService;
-
 
     @Test
     @WithMockUser(username = "CRIS")
@@ -36,7 +31,6 @@ public class TestingWebApplicationTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Accounts List")));
-
     }
 
     @Test
@@ -53,5 +47,3 @@ public class TestingWebApplicationTest {
                 .andExpect(content().string(containsString("Account details")));
     }
 }
-
-// TODO: 25.10.2022 Zrobić kopie dla accountControllerTest a następnie przetestować endpointy crudowe. 
