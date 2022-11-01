@@ -26,7 +26,7 @@ public class ClientRestController {
     }
 
     @GetMapping
-    public List<ClientModel> clientModelList(){
+    public List<ClientModel> list(){
         LOGGER.info("clientModelList()");
         List<ClientModel> clientModels = clientService.list();
         return clientModels;
