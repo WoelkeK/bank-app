@@ -37,10 +37,13 @@ public class GlobalDefaultExceptionHandler {
         return mav;
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ClientNotFoundException.class)
     @ResponseBody
     public ErrorInfo handleClientException(HttpServletRequest req, Exception ex) {
-        return new ErrorInfo(req, ex);
+        LOGGER.info("handleClientException()");
+        ErrorInfo errorInfo = new ErrorInfo(req, ex);
+        LOGGER.info("errorInfo : " + errorInfo);
+        return errorInfo;
     }
 }
