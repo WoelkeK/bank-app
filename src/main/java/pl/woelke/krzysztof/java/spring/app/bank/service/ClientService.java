@@ -39,7 +39,7 @@ public class ClientService {
         return savedClientModel;
     }
 
-    public ClientModel read(Long id) throws Exception {
+    public ClientModel read(Long id) throws ClientNotFoundException {
         LOGGER.info("read(" + id + ")");
         Optional<ClientEntity> optionalClientEntity = clientRepository.findById(id);
         ClientEntity clientEntity = optionalClientEntity.orElseThrow(
