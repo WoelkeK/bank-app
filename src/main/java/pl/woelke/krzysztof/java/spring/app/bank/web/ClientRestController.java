@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.woelke.krzysztof.java.spring.app.bank.api.exception.ClientNotFoundException;
 import pl.woelke.krzysztof.java.spring.app.bank.service.ClientService;
 import pl.woelke.krzysztof.java.spring.app.bank.web.model.ClientModel;
 
@@ -40,7 +41,7 @@ public class ClientRestController {
     }
 
     @GetMapping(value = "/{id}")
-    public ClientModel read(@PathVariable(name = "id") Long id) throws Exception {
+    public ClientModel read(@PathVariable(name = "id") Long id) throws ClientNotFoundException {
         LOGGER.info("read(" + id + ")");
         ClientModel clientModel = clientService.read(id);
         LOGGER.info("read(...)" + clientModel);
