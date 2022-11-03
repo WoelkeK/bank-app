@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.woelke.krzysztof.java.spring.app.bank.api.exception.config.ErrorInfo;
 import pl.woelke.krzysztof.java.spring.app.bank.web.model.ClientModel;
 
 import java.util.List;
@@ -27,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ClientRestControllerWebAppTest {
 
     private static final long CLIENT_ID_11 = 11L;
+    private static final long CLIENT_ID_MINUS_11 = -11L;
 
     @Autowired
     private MockMvc mockMvc;
@@ -54,7 +56,7 @@ class ClientRestControllerWebAppTest {
         );
     }
 
-
+    // TODO: 01.11.2022 dodaj dodatkowy test metody read, który dla nie istniejącego id zwróci error info zamiast clientModel 
     @Test
     @WithMockUser(username = "CRIS")
     void read() throws Exception {
@@ -63,8 +65,8 @@ class ClientRestControllerWebAppTest {
 
         // when
         ResultActions resultActions = mockMvc.perform(get("/api/clients/{id}", CLIENT_ID_11))
-                .andDo(print())
-                .andExpect(status().isOk());
+                .andDo(print());
+//                .andExpect(status().isOk());
         MvcResult mvcResult = resultActions.andReturn();
         MockHttpServletResponse mvcResultResponse = mvcResult.getResponse();
         String contentAsString = mvcResultResponse.getContentAsString();
@@ -72,6 +74,25 @@ class ClientRestControllerWebAppTest {
 
         // then
         Assertions.assertEquals(CLIENT_ID_11, clientModel.getId(), "clientModel IDs not EQUALS");
+    }
+
+    @Test
+    @WithMockUser(username = "CRIS")
+    void readErrorInfo() throws Exception {
+        // given
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        // when
+        ResultActions resultActions = mockMvc.perform(get("/api/clients/{id}", CLIENT_ID_MINUS_11))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+        MvcResult mvcResult = resultActions.andReturn();
+        MockHttpServletResponse mvcResultResponse = mvcResult.getResponse();
+        String contentAsString = mvcResultResponse.getContentAsString();
+        ErrorInfo errorInfo = objectMapper.readValue(contentAsString, ErrorInfo.class);
+
+        // then
+        Assertions.assertNotNull(errorInfo.getMessage(), "No error message ");
     }
 
     @Test
@@ -133,7 +154,7 @@ class ClientRestControllerWebAppTest {
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/api/clients/{id}", 1))
                 .andExpect(status().isOk());
-            }
+    }
 }
 // TODO: 01.11.2022 Update test intergalny (utworzyc i update i check
 // w delete na koncu check i spr rzucanie wyjatku ClientNotFoundException
