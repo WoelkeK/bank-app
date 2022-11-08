@@ -25,7 +25,7 @@ public class WebSecurityConfig {
 //                        .antMatchers("/accounts/read/").hasRole("USER")
 //                        .antMatchers("/accounts/create/").hasRole("ADMIN")
 //                        .antMatchers("/clients/").hasRole("USER")
-                        .anyRequest().authenticated()
+//                        .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form.permitAll())
                 .logout((logout) -> logout.permitAll());

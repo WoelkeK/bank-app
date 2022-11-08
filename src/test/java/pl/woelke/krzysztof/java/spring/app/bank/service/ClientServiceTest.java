@@ -71,7 +71,7 @@ class ClientServiceTest {
         // then
         Assertions.assertAll(
                 () -> Assertions.assertNotNull(updatedClientModel, "clientModel is null"),
-                () -> Assertions.assertEquals(updatedClientModel.getId(), clientModel.getId())
+                () -> Assertions.assertEquals(updatedClientModel.getId(), createdClientModel.getId())
         );
     }
 

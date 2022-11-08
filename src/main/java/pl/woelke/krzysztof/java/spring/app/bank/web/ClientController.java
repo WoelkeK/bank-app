@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.woelke.krzysztof.java.spring.app.bank.api.external.chucknorrisjokes.ChuckNorrisJoke;
+import pl.woelke.krzysztof.java.spring.app.bank.service.ChuckNorrisJokeService;
 import pl.woelke.krzysztof.java.spring.app.bank.service.ClientService;
 import pl.woelke.krzysztof.java.spring.app.bank.web.model.ClientModel;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -22,17 +25,21 @@ public class ClientController {
     //    @Autowired
     private ClientService clientService;
     private PasswordEncoder passwordEncoder;
+    private ChuckNorrisJokeService chuckNorrisJokeService;
 
-    public ClientController(ClientService clientService, PasswordEncoder passwordEncoder) {
+    public ClientController(ClientService clientService, PasswordEncoder passwordEncoder, ChuckNorrisJokeService chuckNorrisJokeService) {
         this.clientService = clientService;
         this.passwordEncoder = passwordEncoder;
+        this.chuckNorrisJokeService = chuckNorrisJokeService;
     }
 
     @GetMapping
-    public String listView(ModelMap modelMap) {
+    public String listView(ModelMap modelMap) throws IOException {
         LOGGER.info("listView()");
         List<ClientModel> clients = clientService.list();
+        ChuckNorrisJoke chuckNorrisJoke = chuckNorrisJokeService.read();
         modelMap.addAttribute("clients", clients);
+        modelMap.addAttribute("chuckNorrisJoke", chuckNorrisJoke);
         return "list-clients.html";
     }
 
