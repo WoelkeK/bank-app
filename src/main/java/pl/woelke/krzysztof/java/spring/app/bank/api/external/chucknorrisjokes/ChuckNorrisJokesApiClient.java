@@ -30,3 +30,5 @@ public class ChuckNorrisJokesApiClient {
         return null;
     }
 }
+
+// TODO: 08.11.2022 Zapisać do bazy zarty wygenerowane przez danego urzytkownika 
